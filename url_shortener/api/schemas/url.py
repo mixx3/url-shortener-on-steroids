@@ -8,4 +8,3 @@ class UrlPostRequest(Base):
 
 class UrlPostResponse(Base):
     short_url: AnyUrl
-

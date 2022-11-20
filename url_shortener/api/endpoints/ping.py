@@ -7,6 +7,7 @@ ping_router = APIRouter(tags=["ping service"])
 
 # redis-like simple health check
 
+
 @ping_router.get(
     "/v1/health_check",
     response_model=HealthResponse,

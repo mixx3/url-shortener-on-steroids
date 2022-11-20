@@ -4,8 +4,4 @@ from .fake import FakeRepository
 from .postgres import PostgresRepository
 
 
-__all__ = ["BaseRepository",
-           "RedisRepository",
-           "FakeRepository",
-           "PostgresRepository"
-           ]
+__all__ = ["BaseRepository", "RedisRepository", "FakeRepository", "PostgresRepository"]

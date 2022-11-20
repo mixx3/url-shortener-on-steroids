@@ -9,4 +9,3 @@ class RedisRepository(BaseRepository):
 
     def get(self, table: Any, id: UUID) -> dict:
         pass
-
