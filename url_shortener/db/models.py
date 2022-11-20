@@ -29,15 +29,12 @@ class Base:
     def to_dict(self) -> dict:
         return {c.name: getattr(self, c.name) for c in self.__table__.columns}
 
-    def to_dict(self) -> dict:
-        return {c.name: getattr(self, c.name) for c in self.__table__.columns}
-
 
 class Url(Base):
     id = Column(
-        sqlalchemy.String,
+        sqlalchemy.dialects.postgresql.UUID(as_uuid=True),
         primary_key=True,
-        default=uuid4(),
+        server_default=uuid4(),
         unique=True,
         doc="URL id",
     )

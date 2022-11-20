@@ -16,7 +16,6 @@ psycopg2-binary = "^2.9.5"
 redis = "^4.3.4"
 alembic = "^1.8.1"
 uvicorn = "^0.20.0"
-python-dotenv = "^0.21.0"
 
 
 [build-system]
