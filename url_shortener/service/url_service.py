@@ -37,3 +37,4 @@ class UrlService(BaseService):
     async def _ping_url(url: AnyUrl) -> bool:
         res = requests.get(url)
         return res.status_code < 400
+

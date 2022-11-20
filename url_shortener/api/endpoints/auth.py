@@ -1,4 +1,4 @@
 from fastapi import APIRouter
 
 
-auth_router = APIRouter(tags=["Authentification"])
+auth_router = APIRouter(tags=['Authentification'])

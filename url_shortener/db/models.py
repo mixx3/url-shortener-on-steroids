@@ -29,6 +29,9 @@ class Base:
     def to_dict(self) -> dict:
         return {c.name: getattr(self, c.name) for c in self.__table__.columns}
 
+    def to_dict(self) -> dict:
+        return {c.name: getattr(self, c.name) for c in self.__table__.columns}
+
 
 class Url(Base):
     id = Column(
