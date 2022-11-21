@@ -22,7 +22,7 @@ async def redirect_to_long(
 ):
     long_url = await url_service.get_long_url(suffix)
     if long_url:
-        return RedirectResponse(long_url)
+        return RedirectResponse(long_url['origin_url'])
     else:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND, detail="suffix not found"

@@ -18,4 +18,4 @@ class PgSession(DbSession):
         engine = create_engine(get_settings(settings.PgSettings).DB_DSN)
         session = sessionmaker(engine, autocommit=True)
         with session() as s:
-            yield s
+            return s

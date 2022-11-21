@@ -32,6 +32,7 @@ class UrlService(BaseService):
         url = self.repository.get_by_suffix(suffix)
         if url is None:
             return ObjectNotFound(suffix)
+        return url.to_dict()
 
     @staticmethod
     async def _ping_url(url: AnyUrl) -> bool:

@@ -8,6 +8,7 @@ from uuid import UUID
 class PostgresRepository(BaseRepository):
     def add(self, item: Type[Base]) -> None:
         self.session.add(item)
+        self.session.commit()
         self.session.flush()
 
     def get_by_id(self, id: UUID) -> Type[Base] | None:
