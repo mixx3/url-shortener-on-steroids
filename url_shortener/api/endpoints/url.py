@@ -2,7 +2,8 @@ from fastapi import APIRouter
 from url_shortener.api.schemas import UrlPostRequest, UrlPostResponse
 from fastapi import Depends
 from fastapi.exceptions import HTTPException
-from url_shortener.service import UrlService, pg_url_service
+from url_shortener.service import UrlService
+from url_shortener.bootstrap import pg_url_service
 from url_shortener.service.exceptions import InvalidUrl
 from starlette import status
 

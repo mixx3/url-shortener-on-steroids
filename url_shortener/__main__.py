@@ -1,4 +1,4 @@
-from api.endpoints.base import app
+from url_shortener.api.endpoints.base import app
 import uvicorn
 
 if __name__ == "__main__":
