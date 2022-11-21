@@ -3,7 +3,7 @@ from typing import Any
 from uuid import UUID
 
 
-class BaseRepository(ABC):
+class UrlBaseRepository(ABC):
     def __init__(self, session):
         self.session = session
 
@@ -22,3 +22,13 @@ class BaseRepository(ABC):
     @abstractmethod
     def check_suffix_exists(self, suffix: str) -> bool:
         raise NotImplementedError
+
+
+class AuthBaseRepository(ABC):
+    def __init__(self, session):
+        self.session = session
+
+    @abstractmethod
+    def add(self, item: Any):
+        raise NotImplementedError
+

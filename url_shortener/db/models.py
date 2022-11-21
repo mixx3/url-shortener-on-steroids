@@ -56,3 +56,32 @@ class Url(Base):
         default=datetime.utcnow(),
         doc="DateTime when created",
     )
+
+
+class Auth(Base):
+    id = Column(
+        sqlalchemy.String,
+        primary_key=True,
+        default=uuid4(),
+        unique=True,
+        doc="User db id",
+    )
+    email = Column(
+        sqlalchemy.String,
+        doc="User email"
+    )
+    username = Column(
+        sqlalchemy.String,
+        nullable=False,
+        doc="User name",
+    )
+    password = Column(
+        sqlalchemy.String,
+        nullable=False,
+        doc="Hashed password"
+    )
+    salt = Column(
+        sqlalchemy.String,
+        nullable=False,
+        doc="Salt for password",
+    )

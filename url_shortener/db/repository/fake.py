@@ -1,9 +1,9 @@
 from typing import Any
 from uuid import UUID
-from .base import BaseRepository
+from .base import UrlBaseRepository
 
 
-class FakeRepository(BaseRepository):
+class FakeRepositoryUrl(UrlBaseRepository):
     container: set[str] = set()
 
     def add(self, item: Any):
