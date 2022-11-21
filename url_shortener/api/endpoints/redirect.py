@@ -3,9 +3,8 @@ from fastapi.responses import RedirectResponse
 from fastapi.exceptions import HTTPException
 from starlette import status
 from fastapi import Depends
-from url_shortener.db import PgSession
-from url_shortener.service import UrlService, pg_url_service
-from sqlalchemy.orm import Session
+from url_shortener.service import UrlService
+from url_shortener.bootstrap import pg_url_service
 
 
 redirect_router = APIRouter(tags=["Redirect"])

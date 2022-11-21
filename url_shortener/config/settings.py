@@ -10,6 +10,12 @@ class DefaultSettings(BaseSettings):
     CORS_ALLOW_METHODS: list[str] = ["*"]
     CORS_ALLOW_HEADERS: list[str] = ["*"]
 
+    class Config:
+        """Pydantic BaseSettings config"""
+
+        case_sensitive = True
+        env_file = ".env"
+
 
 class PgSettings(DefaultSettings):
     DB_DSN: PostgresDsn
