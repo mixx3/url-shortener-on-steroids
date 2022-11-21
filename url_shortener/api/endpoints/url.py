@@ -17,7 +17,10 @@ url_router = APIRouter(prefix="/url", tags=["Url"])
     status_code=status.HTTP_200_OK,
     responses={
         status.HTTP_422_UNPROCESSABLE_ENTITY: {
-            "description": "URL is not valid or wrong body format"
+            "description": "URL is not in valid format or wrong body format"
+        },
+        status.HTTP_400_BAD_REQUEST: {
+            "description": "Error while accessing to URL"
         }
     },
 )
