@@ -3,7 +3,7 @@ from typing import Any
 from uuid import UUID
 
 
-class UrlBaseRepository(ABC):
+class BaseRepository(ABC):
     def __init__(self, session):
         self.session = session
 
@@ -15,6 +15,8 @@ class UrlBaseRepository(ABC):
     def get_by_id(self, id: UUID) -> Any:
         raise NotImplementedError
 
+
+class UrlBaseRepository(BaseRepository):
     @abstractmethod
     def get_by_suffix(self, suffix: str) -> Any:
         raise NotImplementedError
@@ -24,11 +26,10 @@ class UrlBaseRepository(ABC):
         raise NotImplementedError
 
 
-class AuthBaseRepository(ABC):
-    def __init__(self, session):
-        self.session = session
+class AuthBaseRepository(BaseRepository):
+    def get_by_id(self, id: UUID) -> Any:
+        pass
 
-    @abstractmethod
-    def add(self, item: Any):
-        raise NotImplementedError
+    def add(self, item: Any) -> None:
+        pass
 
