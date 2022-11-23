@@ -1,7 +1,6 @@
 from .base import BaseRepository
-from .redis import RedisRepository
-from .fake import FakeRepository
-from .postgres import PostgresRepository
+from .fake import FakeRepositoryUrl
+from .postgres import PostgresRepositoryUrl, PostgresRepositoryAuth
 
 
-__all__ = ["BaseRepository", "RedisRepository", "FakeRepository", "PostgresRepository"]
+__all__ = ["BaseRepository", "FakeRepositoryUrl", "PostgresRepositoryUrl", "PostgresRepositoryAuth"]

@@ -15,6 +15,8 @@ class BaseRepository(ABC):
     def get_by_id(self, id: UUID) -> Any:
         raise NotImplementedError
 
+
+class UrlBaseRepository(BaseRepository):
     @abstractmethod
     def get_by_suffix(self, suffix: str) -> Any:
         raise NotImplementedError
@@ -22,3 +24,12 @@ class BaseRepository(ABC):
     @abstractmethod
     def check_suffix_exists(self, suffix: str) -> bool:
         raise NotImplementedError
+
+
+class AuthBaseRepository(BaseRepository):
+    def get_by_id(self, id: UUID) -> Any:
+        pass
+
+    def add(self, item: Any) -> None:
+        pass
+

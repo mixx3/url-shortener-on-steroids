@@ -1,9 +1,8 @@
-import cmath
 import re
-
 import sqlalchemy.dialects.postgresql
 from datetime import datetime
 from sqlalchemy.ext.declarative import as_declarative, declared_attr
+from sqlalchemy.orm import relationship
 from uuid import uuid4
 from sqlalchemy import Column
 
@@ -24,7 +23,7 @@ class Base:
         attrs = []
         for c in self.__table__.columns:
             attrs.append(f"{c.name}={getattr(self, c.name)}")
-        return "{}({})".format(self.__class__.__name__, ", ".join(attrs))
+        return f"{self.__class__.__name__}({attrs})"
 
     def to_dict(self) -> dict:
         return {c.name: getattr(self, c.name) for c in self.__table__.columns}
@@ -56,3 +55,41 @@ class Url(Base):
         default=datetime.utcnow(),
         doc="DateTime when created",
     )
+    user_id = Column(
+        sqlalchemy.String,
+        sqlalchemy.ForeignKey('auth.id'),
+        nullable=True,
+        doc="Owner id"
+    )
+    user = relationship('Auth', back_populates='urls')
+
+
+class Auth(Base):
+    id = Column(
+        sqlalchemy.String,
+        primary_key=True,
+        default=uuid4(),
+        unique=True,
+        doc="User db id",
+    )
+    email = Column(
+        sqlalchemy.String,
+        doc="User email"
+    )
+    username = Column(
+        sqlalchemy.String,
+        nullable=False,
+        unique=True,
+        doc="User name",
+    )
+    password = Column(
+        sqlalchemy.String,
+        nullable=False,
+        doc="Hashed password"
+    )
+    salt = Column(
+        sqlalchemy.String,
+        nullable=False,
+        doc="Salt for password",
+    )
+    urls = relationship('Url', back_populates='user')
