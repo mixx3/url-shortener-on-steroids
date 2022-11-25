@@ -57,11 +57,11 @@ class Url(Base):
     )
     user_id = Column(
         sqlalchemy.String,
-        sqlalchemy.ForeignKey('auth.id'),
+        sqlalchemy.ForeignKey("auth.id"),
         nullable=True,
-        doc="Owner id"
+        doc="Owner id",
     )
-    user = relationship('Auth', back_populates='urls')
+    user = relationship("Auth", back_populates="urls")
 
 
 class Auth(Base):
@@ -72,24 +72,11 @@ class Auth(Base):
         unique=True,
         doc="User db id",
     )
-    email = Column(
-        sqlalchemy.String,
-        doc="User email"
-    )
     username = Column(
         sqlalchemy.String,
         nullable=False,
         unique=True,
         doc="User name",
     )
-    password = Column(
-        sqlalchemy.String,
-        nullable=False,
-        doc="Hashed password"
-    )
-    salt = Column(
-        sqlalchemy.String,
-        nullable=False,
-        doc="Salt for password",
-    )
-    urls = relationship('Url', back_populates='user')
+    password = Column(sqlalchemy.String, nullable=False, doc="Hashed password")
+    urls = relationship("Url", back_populates="user")

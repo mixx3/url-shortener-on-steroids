@@ -32,4 +32,3 @@ class AuthBaseRepository(BaseRepository):
 
     def add(self, item: Any) -> None:
         pass
-

@@ -17,6 +17,7 @@ redis = "^4.3.4"
 alembic = "^1.8.1"
 uvicorn = "^0.20.0"
 python-dotenv = "^0.21.0"
+passlib = "^1.7.4"
 
 
 [build-system]

@@ -5,9 +5,9 @@ from url_shortener.service.auth_service import AuthService
 from url_shortener.db.repository import PostgresRepositoryAuth
 
 
-def pg_url_service():
+def pg_url_service() -> UrlService:
     return UrlService(PgSession.get_session(), PostgresRepositoryUrl)
 
 
-def pg_auth_service():
+def pg_auth_service() -> AuthService:
     return AuthService(PgSession.get_session(), PostgresRepositoryAuth)

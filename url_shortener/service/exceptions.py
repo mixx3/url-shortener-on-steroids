@@ -6,3 +6,8 @@ class InvalidUrl(Exception):
 class ObjectNotFound(Exception):
     def __init__(self, key):
         super().__init__(f"Object not found: {key}")
+
+
+class AlreadyRegistered(Exception):
+    def __init__(self, username):
+        super().__init__(f"User with {username} already registered")

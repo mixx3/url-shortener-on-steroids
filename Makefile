@@ -13,3 +13,6 @@ migrate:
 
 alembic_review:
 	poetry run alembic revision --autogenerate -m $(args)
+
+black:
+	poetry run black $(APPLICATION_NAME)
