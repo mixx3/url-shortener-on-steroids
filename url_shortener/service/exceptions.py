@@ -11,3 +11,13 @@ class ObjectNotFound(Exception):
 class AlreadyRegistered(Exception):
     def __init__(self, username):
         super().__init__(f"User with {username} already registered")
+
+
+class NotRegistered(Exception):
+    def __init__(self, username):
+        super().__init__(f"Username {username} not registered yet")
+
+
+class WrongPassword(Exception):
+    def __init__(self):
+        super().__init__(f"Incorrect password")

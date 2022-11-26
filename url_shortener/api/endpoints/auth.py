@@ -29,7 +29,7 @@ async def register(
     _: Request,
     data: RegistrationForm,
     auth_serice: AuthService = Depends(pg_auth_service),
-):
+) -> None:
     username, password = data.username, data.password
     try:
         await auth_serice.registrate_user(username, password)

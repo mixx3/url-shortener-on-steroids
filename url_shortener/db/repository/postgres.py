@@ -30,3 +30,9 @@ class PostgresRepositoryAuth(AuthBaseRepository):
 
     def get_user_by_username(self, username) -> Auth:
         return self.session.query(Auth).filter(Auth.username == username).one_or_none()
+
+    def validate_password(self, password):
+        return (
+            self.session.query(Auth).filter(Auth.password == password).one_or_none()
+            is not None
+        )
