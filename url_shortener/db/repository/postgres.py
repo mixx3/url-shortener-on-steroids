@@ -1,7 +1,5 @@
-from typing import Type, Any
 from .base import UrlBaseRepository, AuthBaseRepository
-from sqlalchemy.orm import Session
-from url_shortener.db.models import Base, Url, Auth
+from url_shortener.db.models import Url, Auth
 from uuid import UUID
 
 

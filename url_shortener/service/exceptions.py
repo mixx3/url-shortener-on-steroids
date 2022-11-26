@@ -21,3 +21,8 @@ class NotRegistered(Exception):
 class WrongPassword(Exception):
     def __init__(self):
         super().__init__(f"Incorrect password")
+
+
+class WrongToken(Exception):
+    def __init__(self):
+        super().__init__(f"Could not decode token")

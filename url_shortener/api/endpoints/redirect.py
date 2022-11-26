@@ -11,7 +11,7 @@ redirect_router = APIRouter(tags=["Redirect"])
 
 
 @redirect_router.get(
-    "/{suffix}",
+    "/to/{suffix}",
     response_class=RedirectResponse,
     status_code=status.HTTP_307_TEMPORARY_REDIRECT,
     responses={status.HTTP_404_NOT_FOUND: {"detail": "suffix not found"}},

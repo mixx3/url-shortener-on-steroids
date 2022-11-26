@@ -1,12 +1,14 @@
 from pydantic import BaseSettings, PostgresDsn, RedisDsn
 from typing import Union
 from passlib.context import CryptContext
-from fastapi import Depends
+import datetime
 
 
 class DefaultSettings(BaseSettings):
     DB_DSN: Union[PostgresDsn, RedisDsn, None] = None
     PWD_CONTEXT = CryptContext(schemes=["bcrypt"], deprecated="auto")
+    EXPIRY_TIMEDELTA: datetime.timedelta = datetime.timedelta(days=7)
+    JWT_KEY = "42"
     CORS_ALLOW_ORIGINS: list[str] = ["*"]
     CORS_ALLOW_CREDENTIALS: bool = True
     CORS_ALLOW_METHODS: list[str] = ["*"]

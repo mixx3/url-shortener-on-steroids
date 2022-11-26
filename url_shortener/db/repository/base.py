@@ -27,8 +27,12 @@ class UrlBaseRepository(BaseRepository):
 
 
 class AuthBaseRepository(BaseRepository):
-    def get_by_id(self, id: UUID) -> Any:
-        pass
+    @abstractmethod
+    def get_user_by_username(self, username):
+        raise NotImplementedError
 
-    def add(self, item: Any) -> None:
-        pass
+    @abstractmethod
+    def validate_password(self, password):
+        raise NotImplementedError
+
+
