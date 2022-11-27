@@ -1,6 +1,6 @@
 from .url import UrlPostResponse, UrlPostRequest
 from .ping import HealthResponse
-from .auth import Token, RegistrationForm
+from .auth import Token, RegistrationForm, User
 
 
 __all__ = [
@@ -9,4 +9,5 @@ __all__ = [
     "HealthResponse",
     "Token",
     "RegistrationForm",
+    "User",
 ]

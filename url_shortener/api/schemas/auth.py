@@ -17,3 +17,8 @@ class RegistrationForm(Base):
         settings = get_settings()
         password = settings.PWD_CONTEXT.hash(password)
         return password
+
+
+class User(Base):
+    db_id: str
+    username: str
