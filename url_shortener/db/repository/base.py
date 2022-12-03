@@ -34,5 +34,3 @@ class AuthBaseRepository(BaseRepository):
     @abstractmethod
     def validate_password(self, password):
         raise NotImplementedError
-
-

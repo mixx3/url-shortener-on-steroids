@@ -7,6 +7,7 @@ class Token(Base):
     access_token: str
     token_type: str
 
+
 class User(Base):
     username: str
     email: str | None = None

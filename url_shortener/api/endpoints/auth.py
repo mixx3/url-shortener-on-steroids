@@ -11,18 +11,14 @@ import url_shortener.api.utils as utils
 
 
 auth_router = APIRouter(tags=["Authentication"])
-oauth2bearer = OAuth2PasswordBearer(tokenUrl='token')
+oauth2bearer = OAuth2PasswordBearer(tokenUrl="token")
 
 
 @auth_router.post(
     "/token",
     status_code=status.HTTP_200_OK,
     response_model=schemas.Token,
-    responses={
-        status.HTTP_401_UNAUTHORIZED: {
-            'description': 'Incorrect params'
-        }
-    }
+    responses={status.HTTP_401_UNAUTHORIZED: {"description": "Incorrect params"}},
 )
 async def get_token(
     _: Request,
@@ -51,11 +47,7 @@ async def get_token(
     "/register",
     status_code=status.HTTP_201_CREATED,
     response_model=None,
-    responses={
-        status.HTTP_400_BAD_REQUEST: {
-            'description': 'Incorrect params'
-        }
-    }
+    responses={status.HTTP_400_BAD_REQUEST: {"description": "Incorrect params"}},
 )
 async def register(
     _: Request,
@@ -73,14 +65,9 @@ async def register(
     "/whoami",
     status_code=status.HTTP_200_OK,
     response_model=schemas.User,
-    responses={
-        status.HTTP_401_UNAUTHORIZED: {
-            'detail': "Unauthorized"
-        }
-    }
+    responses={status.HTTP_401_UNAUTHORIZED: {"detail": "Unauthorized"}},
 )
 async def get_current_user_info(
-        _: Request,
-        current_user=Depends(utils.get_current_user)
+    _: Request, current_user=Depends(utils.get_current_user)
 ):
     return schemas.User(id=current_user.id, username=current_user.username)
