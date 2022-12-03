@@ -9,6 +9,7 @@ class Token(Base):
 
 
 class User(Base):
+    id: str
     username: str
     email: str | None = None
 
