@@ -7,14 +7,15 @@ from url_shortener.bootstrap import pg_auth_service
 from url_shortener.service.auth_service import AuthService
 import url_shortener.api.schemas as schemas
 import url_shortener.service.exceptions as exc
+import url_shortener.api.utils as utils
 
 
 auth_router = APIRouter(tags=["Authentication"])
-oauth2bearer = OAuth2PasswordBearer(tokenUrl='/authentication')
+oauth2bearer = OAuth2PasswordBearer(tokenUrl='token')
 
 
 @auth_router.post(
-    "/authentication",
+    "/token",
     status_code=status.HTTP_200_OK,
     response_model=schemas.Token,
     responses={
@@ -33,15 +34,17 @@ async def get_token(
     except exc.WrongPassword:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Incorrect password"
+            detail="Incorrect username or password",
+            headers={"WWW-Authenticate": "Bearer"},
         )
     except exc.NotRegistered:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Not registered"
+            detail="Username not found",
+            headers={"WWW-Authenticate": "Bearer"},
         )
-    access_token = await auth_service.create_token(username=user.username)
-    return schemas.Token(token=access_token)
+    access_token = await utils.create_token(username=user.username)
+    return {"access_token": access_token, "token_type": "bearer"}
 
 
 @auth_router.post(
@@ -78,12 +81,6 @@ async def register(
 )
 async def get_current_user_info(
         _: Request,
-        token: str = Depends(oauth2bearer),
-        auth_service: AuthService = Depends(pg_auth_service)
+        current_user=Depends(utils.get_current_user)
 ):
-    try:
-        db_user = await auth_service.get_me(token)
-    except exc.WrongToken:
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED,
-                            detail="Wrong token")
-    return schemas.User(id=db_user.id, username=db_user.username)
+    return schemas.User(id=current_user.id, username=current_user.username)

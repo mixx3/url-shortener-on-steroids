@@ -4,8 +4,12 @@ from url_shortener.config import get_settings
 
 
 class Token(Base):
-    token: str
-    type: str = "bearer"
+    access_token: str
+    token_type: str
+
+class User(Base):
+    username: str
+    email: str | None = None
 
 
 class RegistrationForm(Base):
@@ -17,8 +21,3 @@ class RegistrationForm(Base):
         settings = get_settings()
         password = settings.PWD_CONTEXT.hash(password)
         return password
-
-
-class User(Base):
-    db_id: str
-    username: str

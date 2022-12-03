@@ -20,25 +20,28 @@ class AuthService(BaseService):
         db_user: Auth | None = self.repository.get_user_by_username(username)
         if not db_user:
             raise exc.NotRegistered(username)
-        if not self._validate_password(db_user.password, password):
+        if not await self._validate_password(db_user.password, password):
             raise exc.WrongPassword()
         return db_user
 
+    async def get_user(self, username):
+        return self.repository.get_user_by_username(username)
+
     @staticmethod
     async def _validate_password(db_password, inp_password):
-        return db_password == inp_password
+        return settings.PWD_CONTEXT.verify(inp_password, db_password)
 
-    @staticmethod
-    async def create_token(**kwargs):
-        payload = kwargs.copy()
-        expire_date = datetime.utcnow() + settings.EXPIRY_TIMEDELTA
-        payload.update({"expire": expire_date.isoformat()})
-        token = jwt.encode(payload=payload, key=settings.JWT_KEY)
-        return token
+    # @staticmethod
+    # async def create_token(**kwargs):
+    #     payload = kwargs.copy()
+    #     expire_date = datetime.utcnow() + settings.EXPIRY_TIMEDELTA
+    #     payload.update({"exp": expire_date})
+    #     token = jwt.encode(payload=payload, key=settings.JWT_KEY)
+    #     return token
 
-    async def get_me(self, token) -> Auth | None:
-        try:
-            user = jwt.decode(token, settings.JWT_KEY)
-        except jwt.DecodeError:
-            raise exc.WrongToken()
-        return self.repository.get_user_by_username(user['username'])
+    # async def get_me(self, token) -> Auth | None:
+    #     try:
+    #         user = jwt.decode(token, settings.JWT_KEY)
+    #     except jwt.DecodeError:
+    #         raise exc.WrongToken()
+    #     return self.repository.get_user_by_username(user['username'])
