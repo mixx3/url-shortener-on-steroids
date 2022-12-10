@@ -13,5 +13,5 @@ ping_router = APIRouter(tags=["Ping service"])
     response_model=HealthResponse,
     status_code=status.HTTP_200_OK,
 )
-async def ans_pong():
+async def health_check():
     return HealthResponse()
