@@ -4,7 +4,7 @@ from fastapi.security import OAuth2PasswordBearer
 from jose import JWTError, jwt
 from passlib.context import CryptContext
 from url_shortener.config import get_settings
-from url_shortener.bootstrap import pg_auth_service
+from url_shortener.service.bootstrap import pg_auth_service
 from url_shortener.service.auth_service import AuthService
 
 settings = get_settings()

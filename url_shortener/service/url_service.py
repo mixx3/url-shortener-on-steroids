@@ -1,4 +1,5 @@
 from .base import BaseService
+from abc import abstractmethod
 from pydantic import AnyUrl
 from random import choice
 from string import ascii_uppercase
@@ -7,11 +8,25 @@ import requests
 from .exceptions import InvalidUrl, ObjectNotFound
 
 
-class AdminService(BaseService):
-    pass
+class InterfaceUrlService(BaseService):
+    @abstractmethod
+    async def make_suffix(self, url: AnyUrl) -> str:
+        raise NotImplementedError
+
+    @abstractmethod
+    async def _generate_suffix(self):
+        raise NotImplementedError
+
+    @abstractmethod
+    async def get_long_url(self, suffix):
+        raise NotImplementedError
+
+    @staticmethod
+    async def _ping_url(url: AnyUrl) -> bool:
+        raise NotImplementedError
 
 
-class UrlService(BaseService):
+class UrlService(InterfaceUrlService):
     async def make_suffix(self, url: AnyUrl) -> str:
         is_valid = await self._ping_url(url)
         if is_valid:
@@ -19,8 +34,7 @@ class UrlService(BaseService):
             db_url = models.Url(origin_url=url, suffix=suffix)
             self.repository.add(db_url)
             return suffix
-        else:
-            raise InvalidUrl(url)
+        raise InvalidUrl(url)
 
     async def _generate_suffix(self):
         while True:
@@ -36,5 +50,36 @@ class UrlService(BaseService):
 
     @staticmethod
     async def _ping_url(url: AnyUrl) -> bool:
-        res = requests.get(url)
-        return res.status_code < 400
+        try:
+            res = requests.get(url)
+            return res.status_code < 400
+        except requests.exceptions.ConnectionError:
+            return False
+
+
+class FakeUrlService(InterfaceUrlService):
+    repository = []
+
+    async def make_suffix(self, url: AnyUrl) -> str:
+        is_valid = await self._ping_url(url)
+        if is_valid:
+            suff = await self._generate_suffix()
+            self.repository.append(models.Url(origin_url=url, suffix=suff))
+            return suff
+        raise InvalidUrl(url)
+
+    @abstractmethod
+    async def _generate_suffix(self):
+        return "".join(choice(ascii_uppercase) for _ in range(6))
+
+    @abstractmethod
+    async def get_long_url(self, suffix):
+        for u in self.repository:
+            if u.suffix == suffix:
+                return u.origin_url
+
+    @staticmethod
+    async def _ping_url(url: AnyUrl) -> bool:
+        if url == "https://www.python.org":
+            return True
+        return False

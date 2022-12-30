@@ -4,13 +4,14 @@ from .base import UrlBaseRepository, AuthBaseRepository
 
 
 class FakeRepositoryUrl(UrlBaseRepository):
-    container: set[str] = set()
+    container: dict[str] = dict()
+    suffix_cont: set[str] = set()
 
     def add(self, item: Any):
-        self.container.add(item)
+        self.container[item.id] = item
 
     def get_by_suffix(self, suffix: str) -> Any:
-        pass
+        return
 
     def get_by_id(self, id: UUID) -> Any:
         pass

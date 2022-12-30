@@ -7,4 +7,5 @@ class UrlPostRequest(Base):
 
 
 class UrlPostResponse(Base):
-    short_url: AnyUrl
+    short_url: AnyUrl | None
+    suffix: str | None
