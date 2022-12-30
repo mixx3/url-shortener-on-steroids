@@ -1,0 +1,2 @@
+class PingTest:
+    _url = ''

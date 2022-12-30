@@ -3,12 +3,13 @@ from url_shortener.api.schemas import UrlPostRequest, UrlPostResponse
 from fastapi import Depends
 from url_shortener.config import get_settings
 from fastapi.exceptions import HTTPException
-from url_shortener.service import InterfaceUrlService
+from url_shortener.service import InterfaceUrlService, Config
 from url_shortener.service.exceptions import InvalidUrl
 from starlette import status
 
 
 settings = get_settings()
+service_conf = Config()
 url_router = APIRouter(prefix="/url", tags=["Url"])
 
 
@@ -25,7 +26,7 @@ url_router = APIRouter(prefix="/url", tags=["Url"])
 )
 async def make_short_suffix(
     request_url: UrlPostRequest,
-    url_service: InterfaceUrlService = Depends(settings.URL_SERVICE),
+    url_service: InterfaceUrlService = Depends(Config.url_service),
 ):
     try:
         suffix = await url_service.make_suffix(request_url.long_url)

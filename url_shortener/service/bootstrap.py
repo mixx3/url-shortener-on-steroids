@@ -4,6 +4,7 @@ from url_shortener.db.repository import (
     FakeRepositoryAuth,
     FakeRepositoryUrl,
 )
+from typing import Type
 from url_shortener.db import PgSession
 from .auth_service import AuthService, FakeAuthService
 from .url_service import UrlService, FakeUrlService
@@ -23,3 +24,13 @@ def fake_auth_service() -> FakeAuthService:
 
 def fake_url_service() -> FakeUrlService:
     return FakeUrlService(None, FakeRepositoryUrl)
+
+
+class Config:
+    fake: bool = False
+    url_service: Type[UrlService] = pg_url_service
+    auth_service: Type[AuthService] = pg_auth_service
+    if fake:
+        url_service: Type[FakeUrlService] = fake_url_service
+        auth_service: Type[FakeAuthService] = fake_auth_service
+
