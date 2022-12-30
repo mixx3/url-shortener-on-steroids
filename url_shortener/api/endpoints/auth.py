@@ -1,7 +1,6 @@
 from fastapi import APIRouter, Depends
 from fastapi.security import OAuth2PasswordRequestForm, OAuth2PasswordBearer
 from starlette import status
-from typing import Type
 from fastapi.requests import Request
 from fastapi.exceptions import HTTPException
 from url_shortener.service.bootstrap import pg_auth_service
@@ -9,8 +8,10 @@ from url_shortener.service.auth_service import InterfaceAuthService
 import url_shortener.api.schemas as schemas
 import url_shortener.service.exceptions as exc
 import url_shortener.api.utils as utils
+from url_shortener.config import get_settings
 
 
+settings = get_settings()
 auth_router = APIRouter(tags=["Authentication"])
 oauth2bearer = OAuth2PasswordBearer(tokenUrl="token")
 
@@ -24,7 +25,7 @@ oauth2bearer = OAuth2PasswordBearer(tokenUrl="token")
 async def get_token(
     _: Request,
     form: OAuth2PasswordRequestForm = Depends(),
-    auth_service: InterfaceAuthService = Depends(pg_auth_service),
+    auth_service: InterfaceAuthService = Depends(settings.AUTH_SERVICE),
 ):
     try:
         user = await auth_service.authenticate_user(form.username, form.password)
@@ -53,7 +54,7 @@ async def get_token(
 async def register(
     _: Request,
     data: schemas.RegistrationForm,
-    auth_service: InterfaceAuthService = Depends(pg_auth_service),
+    auth_service: InterfaceAuthService = Depends(settings.AUTH_SERVICE),
 ) -> None:
     username, password = data.username, data.password
     try:
