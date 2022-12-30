@@ -14,6 +14,8 @@ class DefaultSettings(BaseSettings):
     CORS_ALLOW_CREDENTIALS: bool = True
     CORS_ALLOW_METHODS: list[str] = ["*"]
     CORS_ALLOW_HEADERS: list[str] = ["*"]
+    AUTH_SERVICE = None
+    URL_SERVICE = None
 
     class Config:
         """Pydantic BaseSettings config"""
