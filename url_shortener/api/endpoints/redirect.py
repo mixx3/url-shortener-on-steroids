@@ -2,8 +2,9 @@ from fastapi import APIRouter
 from fastapi.responses import RedirectResponse
 from fastapi.exceptions import HTTPException
 from starlette import status
+from typing import Type
 from fastapi import Depends
-from url_shortener.service import InterfaceUrlService, Config
+from url_shortener.service import InterfaceUrlService, get_url_service
 from url_shortener.config import get_settings
 
 
@@ -19,7 +20,7 @@ redirect_router = APIRouter(tags=["Redirect"])
 )
 async def redirect_to_long(
     suffix: str,
-    url_service: InterfaceUrlService = Depends(Config.url_service),
+    url_service: InterfaceUrlService = Depends(get_url_service),
 ):
     long_url = await url_service.get_long_url(suffix)
     if long_url:

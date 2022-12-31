@@ -34,3 +34,15 @@ class AuthBaseRepository(BaseRepository):
     @abstractmethod
     def validate_password(self, password):
         raise NotImplementedError
+
+
+class FakeRepository(BaseRepository):
+    container = []
+
+    def add(self, obj):
+        self.container.append(obj)
+
+    def get_by_id(self, id: UUID) -> Any:
+        for o in self.container:
+            if o.id == id:
+                return o

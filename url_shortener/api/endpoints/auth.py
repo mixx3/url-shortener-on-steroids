@@ -2,8 +2,9 @@ from fastapi import APIRouter, Depends
 from fastapi.security import OAuth2PasswordRequestForm, OAuth2PasswordBearer
 from starlette import status
 from fastapi.requests import Request
+from typing import Type
 from fastapi.exceptions import HTTPException
-from url_shortener.service import InterfaceAuthService, Config
+from url_shortener.service import InterfaceAuthService, get_auth_service
 import url_shortener.api.schemas as schemas
 import url_shortener.service.exceptions as exc
 import url_shortener.api.utils as utils
@@ -24,7 +25,7 @@ oauth2bearer = OAuth2PasswordBearer(tokenUrl="token")
 async def get_token(
     _: Request,
     form: OAuth2PasswordRequestForm = Depends(),
-    auth_service: InterfaceAuthService = Depends(Config.auth_service),
+    auth_service: InterfaceAuthService = Depends(get_auth_service),
 ):
     try:
         user = await auth_service.authenticate_user(form.username, form.password)
@@ -53,7 +54,7 @@ async def get_token(
 async def register(
     _: Request,
     data: schemas.RegistrationForm,
-    auth_service: InterfaceAuthService = Depends(Config.auth_service),
+    auth_service: InterfaceAuthService = Depends(get_auth_service),
 ) -> None:
     username, password = data.username, data.password
     try:

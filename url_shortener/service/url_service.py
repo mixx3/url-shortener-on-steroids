@@ -13,8 +13,8 @@ class InterfaceUrlService(BaseService):
     async def make_suffix(self, url: AnyUrl) -> str:
         raise NotImplementedError
 
-    @abstractmethod
-    async def _generate_suffix(self):
+    @staticmethod
+    async def _generate_suffix():
         raise NotImplementedError
 
     @abstractmethod
@@ -58,21 +58,18 @@ class UrlService(InterfaceUrlService):
 
 
 class FakeUrlService(InterfaceUrlService):
-    repository = []
-
     async def make_suffix(self, url: AnyUrl) -> str:
         is_valid = await self._ping_url(url)
         if is_valid:
             suff = await self._generate_suffix()
-            self.repository.append(models.Url(origin_url=url, suffix=suff))
+            self.repository.add(models.Url(origin_url=url, suffix=suff))
             return suff
         raise InvalidUrl(url)
 
-    @abstractmethod
-    async def _generate_suffix(self):
+    @staticmethod
+    async def _generate_suffix():
         return "".join(choice(ascii_uppercase) for _ in range(6))
 
-    @abstractmethod
     async def get_long_url(self, suffix):
         for u in self.repository:
             if u.suffix == suffix:
