@@ -71,9 +71,7 @@ class FakeUrlService(InterfaceUrlService):
         return "".join(choice(ascii_uppercase) for _ in range(6))
 
     async def get_long_url(self, suffix):
-        for u in self.repository:
-            if u.suffix == suffix:
-                return u.origin_url
+        return self.repository.get_by_suffix(suffix).to_dict()
 
     @staticmethod
     async def _ping_url(url: AnyUrl) -> bool:

@@ -27,7 +27,7 @@ def client(settings):
 
 
 @pytest.fixture
-def suffix(client):
+def suffix_body(client):
     to_make_shorter = 'https://www.python.org'
     i_body = {
             'long_url': to_make_shorter
@@ -36,4 +36,4 @@ def suffix(client):
     assert res.status_code == status.HTTP_200_OK
     body = res.json()
     assert 'suffix' in body.keys()
-    return body['suffix']
+    return body
