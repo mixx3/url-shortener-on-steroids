@@ -4,7 +4,7 @@ from fastapi.security import OAuth2PasswordBearer
 from jose import JWTError, jwt
 from passlib.context import CryptContext
 from url_shortener.config import get_settings
-from url_shortener.bootstrap import pg_auth_service
+from url_shortener.service.bootstrap import get_auth_service
 from url_shortener.service.auth_service import AuthService
 
 settings = get_settings()
@@ -23,7 +23,7 @@ async def create_token(**kwargs):
 
 async def get_current_user(
     token: str = Depends(oauth2_scheme),
-    auth_service: AuthService = Depends(pg_auth_service),
+    auth_service: AuthService = Depends(get_auth_service),
 ):
     credentials_exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,

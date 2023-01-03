@@ -80,3 +80,25 @@ class Auth(Base):
     )
     password = Column(sqlalchemy.String, nullable=False, doc="Hashed password")
     urls = relationship("Url", back_populates="user")
+
+
+class UrlLog(Base):
+    id = Column(
+        sqlalchemy.String,
+        primary_key=True,
+        default=uuid4(),
+        unique=True,
+        doc="Log db id",
+    )
+    url_id = Column(
+        sqlalchemy.String,
+        sqlalchemy.ForeignKey("url.id"),
+        nullable=True,
+        doc="Url id",
+    )
+    user_id = Column(
+        sqlalchemy.String,
+        sqlalchemy.ForeignKey("auth.id"),
+        nullable=True,
+        doc="Owner id",
+    )
