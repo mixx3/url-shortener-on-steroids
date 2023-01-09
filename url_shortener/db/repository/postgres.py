@@ -17,6 +17,9 @@ class PostgresRepositoryUrl(UrlBaseRepository):
     def check_suffix_exists(self, suffix: str) -> bool:
         return self.get_by_suffix(suffix) is None
 
+    def get_by_user_id(self, user_id: UUID) -> list[Url]:
+        return self.session.query(Url).filter(Url.user_id == user_id).all()
+
 
 class PostgresRepositoryAuth(AuthBaseRepository):
     def add(self, item: Auth):
