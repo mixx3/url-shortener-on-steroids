@@ -10,7 +10,7 @@ from .exceptions import InvalidUrl, ObjectNotFound
 
 class InterfaceUrlService(BaseService):
     @abstractmethod
-    async def make_suffix(self, url: AnyUrl) -> str:
+    async def make_suffix(self, url: AnyUrl, user_id: str | None = None) -> str:
         raise NotImplementedError
 
     @staticmethod
@@ -25,13 +25,20 @@ class InterfaceUrlService(BaseService):
     async def _ping_url(url: AnyUrl) -> bool:
         raise NotImplementedError
 
+    @abstractmethod
+    async def get_urls_by_user_id(self, user_id: str):
+        raise NotImplementedError
+
 
 class UrlService(InterfaceUrlService):
-    async def make_suffix(self, url: AnyUrl) -> str:
+    async def make_suffix(self, url: AnyUrl, user_id: str | None = None) -> str:
         is_valid = await self._ping_url(url)
         if is_valid:
             suffix = await self._generate_suffix()
-            db_url = models.Url(origin_url=url, suffix=suffix)
+            if user_id:
+                db_url = models.Url(origin_url=url, suffix=suffix, user_id=user_id)
+            else:
+                db_url = models.Url(origin_url=url, suffix=suffix)
             self.repository.add(db_url)
             return suffix
         raise InvalidUrl(url)
@@ -48,6 +55,9 @@ class UrlService(InterfaceUrlService):
             return ObjectNotFound(suffix)
         return url.to_dict()
 
+    async def get_urls_by_user_id(self, user_id: str):
+        return self.repository.get_by_id()
+
     @staticmethod
     async def _ping_url(url: AnyUrl) -> bool:
         try:
@@ -58,7 +68,7 @@ class UrlService(InterfaceUrlService):
 
 
 class FakeUrlService(InterfaceUrlService):
-    async def make_suffix(self, url: AnyUrl) -> str:
+    async def make_suffix(self, url: AnyUrl, user_id: str | None = None) -> str:
         is_valid = await self._ping_url(url)
         if is_valid:
             suff = await self._generate_suffix()
