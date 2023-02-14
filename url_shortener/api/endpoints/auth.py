@@ -2,7 +2,6 @@ from fastapi import APIRouter, Depends
 from fastapi.security import OAuth2PasswordRequestForm, OAuth2PasswordBearer
 from starlette import status
 from fastapi.requests import Request
-from typing import Type
 from fastapi.exceptions import HTTPException
 from url_shortener.service import InterfaceAuthService, get_auth_service
 import url_shortener.api.schemas as schemas

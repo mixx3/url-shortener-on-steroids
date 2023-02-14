@@ -7,5 +7,5 @@ __all__ = [
     "InterfaceAuthService",
     "Config",
     "get_url_service",
-    "get_auth_service"
+    "get_auth_service",
 ]

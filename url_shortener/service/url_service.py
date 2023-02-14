@@ -68,6 +68,9 @@ class UrlService(InterfaceUrlService):
 
 
 class FakeUrlService(InterfaceUrlService):
+    async def get_urls_by_user_id(self, user_id: str):
+        pass
+
     async def make_suffix(self, url: AnyUrl, user_id: str | None = None) -> str:
         is_valid = await self._ping_url(url)
         if is_valid:

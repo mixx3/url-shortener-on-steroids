@@ -4,6 +4,9 @@ from .base import UrlBaseRepository, AuthBaseRepository
 
 
 class FakeRepositoryUrl(UrlBaseRepository):
+    def get_by_user_id(self, user_id: UUID) -> Any:
+        pass
+
     container: list = []
 
     def add(self, item: Any):

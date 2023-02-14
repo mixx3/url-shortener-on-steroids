@@ -44,16 +44,18 @@ async def make_short_suffix(
             "description": "URL is not in valid format or wrong body format"
         },
         status.HTTP_400_BAD_REQUEST: {"description": "Error while accessing to URL"},
-        status.HTTP_401_UNAUTHORIZED: {"description": "User unauthorized"}
-    }
+        status.HTTP_401_UNAUTHORIZED: {"description": "User unauthorized"},
+    },
 )
 async def make_short_suffix_auth(
-        request_url: UrlPostRequest,
-        url_service: InterfaceUrlService = Depends(get_url_service),
-        current_user=Depends(utils.get_current_user)
+    request_url: UrlPostRequest,
+    url_service: InterfaceUrlService = Depends(get_url_service),
+    current_user=Depends(utils.get_current_user),
 ):
     try:
-        suffix = await url_service.make_suffix(request_url.long_url, user_id=current_user.id)
+        suffix = await url_service.make_suffix(
+            request_url.long_url, user_id=current_user.id
+        )
     except exc.InvalidUrl as e:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=repr(e))
     return UrlPostResponse(long_url=request_url.long_url, suffix=suffix)
@@ -65,7 +67,7 @@ async def make_short_suffix_auth(
     status_code=status.HTTP_200_OK,
 )
 async def get_my_urls(
-        url_service: InterfaceUrlService = Depends(get_url_service),
-        current_user=Depends(utils.get_current_user)
+    url_service: InterfaceUrlService = Depends(get_url_service),
+    current_user=Depends(utils.get_current_user),
 ):
     return url_service.get_urls_by_user_id(current_user.id)

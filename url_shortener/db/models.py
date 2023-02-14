@@ -2,7 +2,7 @@ import re
 import sqlalchemy.dialects.postgresql
 from datetime import datetime
 from sqlalchemy.ext.declarative import as_declarative, declared_attr
-from sqlalchemy.orm import relationship
+from sqlalchemy.orm import relationship, mapped_column, Mapped
 from uuid import uuid4
 from sqlalchemy import Column
 
@@ -30,32 +30,32 @@ class Base:
 
 
 class Url(Base):
-    id = Column(
+    id: Mapped[str] = mapped_column(
         sqlalchemy.String,
         primary_key=True,
         default=uuid4(),
         unique=True,
         doc="URL id",
     )
-    origin_url = Column(
+    origin_url: Mapped[str] = mapped_column(
         sqlalchemy.String,
         nullable=False,
         index=True,
         doc="Original long url",
     )
-    suffix = Column(
+    suffix: Mapped[str] = mapped_column(
         sqlalchemy.String,
         nullable=False,
         index=True,
         doc="Short url suffix",
     )
-    create_ts = Column(
+    create_ts: Mapped[datetime] = mapped_column(
         sqlalchemy.DateTime(timezone=True),
         nullable=False,
         default=datetime.utcnow(),
         doc="DateTime when created",
     )
-    user_id = Column(
+    user_id: Mapped[str] = mapped_column(
         sqlalchemy.String,
         sqlalchemy.ForeignKey("auth.id"),
         nullable=True,
@@ -65,38 +65,40 @@ class Url(Base):
 
 
 class Auth(Base):
-    id = Column(
+    id: Mapped[str] = mapped_column(
         sqlalchemy.String,
         primary_key=True,
         default=uuid4(),
         unique=True,
         doc="User db id",
     )
-    username = Column(
+    username: Mapped[str] = mapped_column(
         sqlalchemy.String,
         nullable=False,
         unique=True,
         doc="User name",
     )
-    password = Column(sqlalchemy.String, nullable=False, doc="Hashed password")
+    password: Mapped[str] = mapped_column(
+        sqlalchemy.String, nullable=False, doc="Hashed password"
+    )
     urls = relationship("Url", back_populates="user")
 
 
 class UrlLog(Base):
-    id = Column(
+    id: Mapped[str] = mapped_column(
         sqlalchemy.String,
         primary_key=True,
         default=uuid4(),
         unique=True,
         doc="Log db id",
     )
-    url_id = Column(
+    url_id: Mapped[str] = mapped_column(
         sqlalchemy.String,
         sqlalchemy.ForeignKey("url.id"),
         nullable=True,
         doc="Url id",
     )
-    user_id = Column(
+    user_id: Mapped[str] = mapped_column(
         sqlalchemy.String,
         sqlalchemy.ForeignKey("auth.id"),
         nullable=True,
