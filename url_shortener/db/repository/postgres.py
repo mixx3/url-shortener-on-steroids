@@ -5,30 +5,30 @@ import sqlalchemy as sa
 
 
 class PostgresRepositoryUrl(UrlBaseRepository):
-    async def add(self, item: Url) -> None:
-        q = sa.insert(Url).values(**item.to_dict()).returning(Url)
-        self.session.scalar(q)
-        self.session.flush()
+    async def add(self, item: dict) -> None:
+        q = sa.insert(Url).values(**item).returning(Url)
+        await self.session.scalar(q)
+        await self.session.flush()
 
     async def get_by_id(self, id: UUID) -> Url | None:
         q = sa.select(Url).where(Url.id == id)
-        return self.session.scalar(q)
+        return await self.session.scalar(q)
 
     async def get_by_suffix(self, suffix: str) -> Url | None:
         q = sa.select(Url).where(Url.suffix == suffix)
-        return self.session.scalar(q)
+        return await self.session.scalar(q)
 
     async def check_suffix_exists(self, suffix: str) -> bool:
-        return self.get_by_suffix(suffix) is None
+        return await self.get_by_suffix(suffix) is None
 
     async def get_by_user_id(self, user_id: UUID) -> list[Url]:
         q = sa.select(Url).where(Url.user_id == user_id)
-        return self.session.scalar(q)
+        return await self.session.scalar(q)
 
 
 class PostgresRepositoryAuth(AuthBaseRepository):
-    async def add(self, item: Auth):
-        q = sa.insert(Auth).values(**item.to_dict()).returning(Auth)
+    async def add(self, item: dict):
+        q = sa.insert(Auth).values(**item).returning(Auth)
         await self.session.execute(q)
         await self.session.flush()
 

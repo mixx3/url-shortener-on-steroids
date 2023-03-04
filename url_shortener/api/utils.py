@@ -5,7 +5,7 @@ from jose import JWTError, jwt
 from passlib.context import CryptContext
 from url_shortener.config import get_settings
 from url_shortener.service.bootstrap import get_auth_service
-from url_shortener.service.auth_service import AuthService
+from url_shortener.service.auth import AuthService
 
 settings = get_settings()
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
