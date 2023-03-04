@@ -4,7 +4,6 @@ from datetime import datetime
 from sqlalchemy.ext.declarative import as_declarative, declared_attr
 from sqlalchemy.orm import relationship, mapped_column, Mapped
 from uuid import uuid4
-from sqlalchemy import Column
 
 
 @as_declarative()

@@ -61,7 +61,7 @@ def run_migrations_online():
 
     """
     configuration = config.get_section(config.config_ini_section)
-    configuration["sqlalchemy.url"] = settings.DB_DSN
+    configuration["sqlalchemy.url"] = settings.DB_DSN_SYNC
     connectable = engine_from_config(
         configuration,
         prefix="sqlalchemy.",
