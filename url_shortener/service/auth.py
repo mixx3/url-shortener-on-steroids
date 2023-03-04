@@ -27,14 +27,14 @@ class InterfaceAuthService(BaseService):
 
 class AuthService(InterfaceAuthService):
     async def registrate_user(self, username, password):
-        db_user = self.repository.get_user_by_username(username)
+        db_user = await self.repository.get_user_by_username(username)
         if db_user:
             raise exc.AlreadyRegistered(username)
         else:
-            self.repository.add(Auth(username=username, password=password))
+            await self.repository.add(dict(username=username, password=password))
 
     async def authenticate_user(self, username, password) -> Auth | None:
-        db_user: Auth | None = self.repository.get_user_by_username(username)
+        db_user: Auth | None = await self.repository.get_user_by_username(username)
         if not db_user:
             raise exc.NotRegistered(username)
         if not await self._validate_password(db_user.password, password):
@@ -42,7 +42,7 @@ class AuthService(InterfaceAuthService):
         return db_user
 
     async def get_user(self, username):
-        return self.repository.get_user_by_username(username)
+        return await self.repository.get_user_by_username(username)
 
     @staticmethod
     async def _validate_password(db_password, inp_password):

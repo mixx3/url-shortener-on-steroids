@@ -3,8 +3,7 @@ import sqlalchemy.dialects.postgresql
 from datetime import datetime
 from sqlalchemy.ext.declarative import as_declarative, declared_attr
 from sqlalchemy.orm import relationship, mapped_column, Mapped
-from uuid import uuid4
-from sqlalchemy import Column
+from uuid import uuid4, UUID
 
 
 @as_declarative()
@@ -30,8 +29,8 @@ class Base:
 
 
 class Url(Base):
-    id: Mapped[str] = mapped_column(
-        sqlalchemy.String,
+    id: Mapped[UUID] = mapped_column(
+        sqlalchemy.UUID(as_uuid=True),
         primary_key=True,
         default=uuid4(),
         unique=True,
@@ -65,8 +64,8 @@ class Url(Base):
 
 
 class Auth(Base):
-    id: Mapped[str] = mapped_column(
-        sqlalchemy.String,
+    id: Mapped[UUID] = mapped_column(
+        sqlalchemy.UUID(as_uuid=True),
         primary_key=True,
         default=uuid4(),
         unique=True,
@@ -85,8 +84,8 @@ class Auth(Base):
 
 
 class UrlLog(Base):
-    id: Mapped[str] = mapped_column(
-        sqlalchemy.String,
+    id: Mapped[UUID] = mapped_column(
+        sqlalchemy.UUID(as_uuid=True),
         primary_key=True,
         default=uuid4(),
         unique=True,

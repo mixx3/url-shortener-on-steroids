@@ -1,3 +1,3 @@
-from .session import PgSession
+from .session import get_session
 
-__all__ = ["PgSession"]
+__all__ = ["get_session"]

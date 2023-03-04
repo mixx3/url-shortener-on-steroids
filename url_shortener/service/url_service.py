@@ -36,27 +36,27 @@ class UrlService(InterfaceUrlService):
         if is_valid:
             suffix = await self._generate_suffix()
             if user_id:
-                db_url = models.Url(origin_url=url, suffix=suffix, user_id=user_id)
+                db_url = dict(origin_url=url, suffix=suffix, user_id=user_id)
             else:
-                db_url = models.Url(origin_url=url, suffix=suffix)
-            self.repository.add(db_url)
+                db_url = dict(origin_url=url, suffix=suffix)
+            await self.repository.add(db_url)
             return suffix
         raise InvalidUrl(url)
 
     async def _generate_suffix(self):
         while True:
             suffix = "".join(choice(ascii_uppercase) for _ in range(6))
-            if self.repository.check_suffix_exists(suffix):
+            if await self.repository.check_suffix_exists(suffix):
                 return suffix
 
     async def get_long_url(self, suffix):
-        url = self.repository.get_by_suffix(suffix)
+        url = await self.repository.get_by_suffix(suffix)
         if url is None:
             return ObjectNotFound(suffix)
         return url.to_dict()
 
     async def get_urls_by_user_id(self, user_id: str):
-        return self.repository.get_by_id()
+        return await self.repository.get_by_id()
 
     @staticmethod
     async def _ping_url(url: AnyUrl) -> bool:
@@ -75,7 +75,7 @@ class FakeUrlService(InterfaceUrlService):
         is_valid = await self._ping_url(url)
         if is_valid:
             suff = await self._generate_suffix()
-            self.repository.add(models.Url(origin_url=url, suffix=suff))
+            self.repository.add(dict(origin_url=url, suffix=suff))
             return suff
         raise InvalidUrl(url)
 

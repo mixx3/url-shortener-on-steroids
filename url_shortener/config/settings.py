@@ -6,6 +6,7 @@ import datetime
 
 class DefaultSettings(BaseSettings):
     DB_DSN: Union[PostgresDsn, RedisDsn, None] = None
+    DB_DSN_SYNC: PostgresDsn | None = None
     PWD_CONTEXT = CryptContext(schemes=["bcrypt"], deprecated="auto")
     EXPIRY_TIMEDELTA: datetime.timedelta = datetime.timedelta(days=7)
     JWT_KEY = "42"
