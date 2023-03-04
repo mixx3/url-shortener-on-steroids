@@ -23,7 +23,7 @@ class SessionManager:
         return async_sessionmaker(self.engine, class_=AsyncSession, expire_on_commit=False, autoflush=True)
 
     def refresh(self) -> None:
-        self.engine = create_async_engine(get_settings().DB_DSN, echo=True, future=True)
+        self.engine = create_async_engine(get_settings().DB_DSN, echo=True, future=True, execution_options={"isolation_level": "AUTOCOMMIT"})
 
 
 async def get_session() -> AsyncSession:
