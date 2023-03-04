@@ -5,7 +5,7 @@ from url_shortener.db.repository import (
     FakeRepositoryUrl,
 )
 import url_shortener.db as PgSession
-from .auth_service import AuthService, FakeAuthService, InterfaceAuthService
+from .auth import AuthService, FakeAuthService, InterfaceAuthService
 from .url_service import UrlService, FakeUrlService, InterfaceUrlService
 
 
