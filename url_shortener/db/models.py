@@ -32,7 +32,7 @@ class Url(Base):
     id: Mapped[UUID] = mapped_column(
         sqlalchemy.UUID(as_uuid=True),
         primary_key=True,
-        default=uuid4(),
+        default=uuid4,
         unique=True,
         doc="URL id",
     )
