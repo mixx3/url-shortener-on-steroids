@@ -41,6 +41,20 @@ class AuthBaseRepository(BaseRepository):
         raise NotImplementedError
 
 
+class LogBaseRepository(BaseRepository):
+    @abstractmethod
+    async def get_by_user_id(self, user_id: UUID) -> Any:
+        raise NotImplementedError
+
+    @abstractmethod
+    async def get_by_url_id(self, url_id: UUID) -> Any:
+        raise NotImplementedError
+
+    @abstractmethod
+    async def add(self, item: dict) -> None:
+        raise NotImplementedError
+    
+
 class FakeRepository(BaseRepository):
     container = []
 

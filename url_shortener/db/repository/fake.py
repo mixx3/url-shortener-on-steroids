@@ -1,6 +1,6 @@
 from typing import Any
 from uuid import UUID
-from .base import UrlBaseRepository, AuthBaseRepository
+from .base import UrlBaseRepository, AuthBaseRepository, LogBaseRepository
 
 
 class FakeRepositoryUrl(UrlBaseRepository):
@@ -37,4 +37,19 @@ class FakeRepositoryAuth(AuthBaseRepository):
         pass
 
     def get_user_by_username(self, username):
+        pass
+
+
+class FakeRepositoryLog(LogBaseRepository):
+
+    async def get_by_user_id(self, user_id: UUID) -> Any:
+        pass
+
+    async def get_by_url_id(self, url_id: UUID) -> Any:
+        pass
+
+    async def add(self, item: dict) -> None:
+        pass
+
+    async def get_by_id(self, id: UUID) -> Any:
         pass

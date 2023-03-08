@@ -1,4 +1,4 @@
-from .url_service import InterfaceUrlService
+from .url import InterfaceUrlService
 from .auth import InterfaceAuthService
 from .bootstrap import Config, get_url_service, get_auth_service
 

@@ -1,5 +1,7 @@
-from .base import UrlBaseRepository, AuthBaseRepository
-from url_shortener.db.models import Url, Auth
+from typing import Any
+
+from .base import UrlBaseRepository, AuthBaseRepository, LogBaseRepository
+from url_shortener.db.models import Url, Auth, UrlLog
 from uuid import UUID
 import sqlalchemy as sa
 
@@ -44,3 +46,21 @@ class PostgresRepositoryAuth(AuthBaseRepository):
         q = sa.select(Auth).where(Auth.password == password)
         res = await self.session.scalar(q)
         return res is not None
+
+
+class PostgresRepositoryLog(LogBaseRepository):
+    async def get_by_user_id(self, user_id: UUID) -> Any:
+        q = sa.select(UrlLog).where(UrlLog.user_id == user_id)
+        return await self.session.scalars(q)
+
+    async def get_by_url_id(self, url_id: UUID) -> Any:
+        q = sa.select(UrlLog).where(UrlLog.url_id == url_id)
+        return await self.session.scalars(q)
+
+    async def add(self, item: dict) -> None:
+        q = sa.insert(UrlLog).values(**dict).returning(UrlLog)
+        await self.session.execute(q)
+        await self.session.flush()
+
+    async def get_by_id(self, id: UUID) -> Any:
+        return await self.session.scalar(sa.select(UrlLog).where(UrlLog.id == id))
