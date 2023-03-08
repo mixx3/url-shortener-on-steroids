@@ -1,5 +1,4 @@
 # url-shortener-on-steroids
- попытка написать очень мало бизнес-логики на гибкой архитектуре
 
 # Run
 ### In terminal:
